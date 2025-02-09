@@ -17,6 +17,9 @@ public class Delivery {
     private Order order;
 
     @ManyToMany
+    @JoinTable(name = "delivery_trucks",  // Join table name
+            joinColumns = @JoinColumn(name = "delivery_id"), // Foreign key for Delivery
+            inverseJoinColumns = @JoinColumn(name = "chassis_number")) // Foreign key for Truck
     private Set<Truck> trucks = new HashSet<>();
 
     @Temporal(TemporalType.DATE)
