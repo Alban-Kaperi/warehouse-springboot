@@ -20,15 +20,15 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order getOrderById(Long id) {
+    public Order findById(Long id) {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public List<Order> getAllOrders() {
+    public List<Order> findAll() {
         return orderRepository.findAll();
     }
 
-    public List<Order> getOrdersByStatus(OrderStatus status){
+    public List<Order> findByStatus(OrderStatus status){
         return orderRepository.findByStatus(status);
     }
 
