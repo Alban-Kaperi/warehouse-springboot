@@ -4,6 +4,9 @@ import com.warehouse.enums.OrderStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.Date;
+import java.util.UUID;
+
 @Entity
 public class Order {
     // 	id, orderNumber, submittedDate, status, deadlineDate
@@ -16,13 +19,24 @@ public class Order {
     private String orderNumber;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private String submittedDate;
+    private Date submittedDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @Temporal(TemporalType.DATE)
     private String deadlineDate;
+
+    // Usually I would do it in the service Layer when I create the order, but because it was in the description of the project I did it like this.
+    @PrePersist
+    public void generateOrderNumberAndSubmittedDate() {
+        if (this.orderNumber == null || this.orderNumber.isEmpty()) {
+            this.orderNumber = UUID.randomUUID().toString();
+        }
+        if (this.submittedDate == null) {
+            this.submittedDate = new Date();
+        }
+    }
 
     public Long getId() {
         return id;
@@ -40,11 +54,11 @@ public class Order {
         this.orderNumber = orderNumber;
     }
 
-    public String getSubmittedDate() {
+    public Date getSubmittedDate() {
         return submittedDate;
     }
 
-    public void setSubmittedDate(String submittedDate) {
+    public void setSubmittedDate(Date submittedDate) {
         this.submittedDate = submittedDate;
     }
 
