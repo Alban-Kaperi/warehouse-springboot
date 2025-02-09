@@ -4,6 +4,7 @@ import com.warehouse.enums.OrderStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
+@Entity
 public class Order {
     // 	id, orderNumber, submittedDate, status, deadlineDate
     @Id
