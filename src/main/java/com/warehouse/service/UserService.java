@@ -23,7 +23,7 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
@@ -31,7 +31,7 @@ public class UserService {
         return userRepository.findByUsername(username).orElse(null);
     }
 
-    public User getUserById(Long id) {
+    public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
