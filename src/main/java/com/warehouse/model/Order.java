@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 public class Order {
-    // 	id, orderNumber, submittedDate, status, deadlineDate
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
