@@ -22,6 +22,8 @@ public class Item {
     @NotEmpty(message = "Item Price is required")
     private Double price;
 
+    // Getters and Setters
+
     public Long getId() {
         return id;
     }

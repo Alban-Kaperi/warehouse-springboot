@@ -1,10 +1,8 @@
 package com.warehouse.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +13,46 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
     private Order order;
 
+    @ManyToMany
     private Set<Truck> trucks = new HashSet<>();
+
+    @Temporal(TemporalType.DATE)
+    private Date deliveryDate;
+
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Set<Truck> getTrucks() {
+        return trucks;
+    }
+
+    public void setTrucks(Set<Truck> trucks) {
+        this.trucks = trucks;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
 }

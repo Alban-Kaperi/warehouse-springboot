@@ -30,15 +30,17 @@ public class Order {
     private String deadlineDate;
 
     // One Order may have many items
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
-    private List<Item> items = new ArrayList<>();
+    @OneToMany
+    private List<OrderItem> items = new ArrayList<>();
 
     // Many Orders can be created by one User
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    private String declineReason;
 
-    // Usually I would do it in the service Layer when I create the order, but because it was in the description of the project I did it like this.
+
+    // Usually I would to do it in the service Layer when I create the order, but because it was in the description of the project I did it like this.
     @PrePersist
     public void generateOrderNumberAndSubmittedDate() {
         if (this.orderNumber == null || this.orderNumber.isEmpty()) {
@@ -91,11 +93,11 @@ public class Order {
         this.deadlineDate = deadlineDate;
     }
 
-    public List<Item> getItems() {
+    public List<OrderItem> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<OrderItem> items) {
         this.items = items;
     }
 
@@ -105,6 +107,14 @@ public class Order {
 
     public void setUser(User client) {
         this.user = client;
+    }
+
+    public String getDeclineReason() {
+        return declineReason;
+    }
+
+    public void setDeclineReason(String declineReason) {
+        this.declineReason = declineReason;
     }
 
 }
