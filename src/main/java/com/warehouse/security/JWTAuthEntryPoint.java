@@ -11,6 +11,11 @@ import java.io.IOException;
 
 @Component
 public class JWTAuthEntryPoint implements AuthenticationEntryPoint {
+
+    /*
+     * The main goal of `JWTAuthEntryPoint` is to intercept unauthorized access attempts
+     * and respond with a standardized `401 Unauthorized` HTTP status code.
+     */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
