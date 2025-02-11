@@ -1,7 +1,7 @@
 package com.warehouse.controller;
 
-import com.warehouse.dtos.AuthResponseDto;
-import com.warehouse.dtos.LoginRequestDto;
+import com.warehouse.dto.AuthResponseDto;
+import com.warehouse.dto.LoginRequestDto;
 import com.warehouse.enums.RoleEnum;
 import com.warehouse.model.Role;
 import com.warehouse.model.User;
