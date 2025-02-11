@@ -3,7 +3,6 @@ package com.warehouse.security;
 import com.warehouse.model.Role;
 import com.warehouse.model.User;
 import com.warehouse.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
