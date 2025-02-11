@@ -2,6 +2,9 @@ package com.warehouse.controller;
 
 import com.warehouse.dtos.AuthResponseDto;
 import com.warehouse.dtos.LoginRequestDto;
+import com.warehouse.enums.RoleEnum;
+import com.warehouse.model.Role;
+import com.warehouse.model.User;
 import com.warehouse.repository.RoleRepository;
 import com.warehouse.repository.UserRepository;
 import com.warehouse.security.JWTService;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -47,5 +53,28 @@ public class AuthController {
         String token = jwtService.generateToken(authentication);
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
+
+    @PostMapping("register")
+    public ResponseEntity<String> register(@RequestBody LoginRequestDto loginDto) throws Exception {
+        if (userRepository.findByUsername(loginDto.getUsername()).isPresent()) {
+            return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
+        }
+
+        var newUser = new User();
+        newUser.setUsername(loginDto.getUsername());
+        newUser.setPassword(passwordEncoder.encode(loginDto.getPassword()));
+
+
+        Role clientRole = roleRepository.findByName(RoleEnum.CLIENT.name());
+        List<Role> roles = new ArrayList<>();
+        roles.add(clientRole);
+        newUser.setRoles(roles);
+
+        userRepository.save(newUser);
+
+        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+
+    }
+
 
 }
