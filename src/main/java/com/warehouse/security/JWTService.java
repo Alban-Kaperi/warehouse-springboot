@@ -3,7 +3,6 @@ package com.warehouse.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
-//import java.security.KeyPair;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -12,9 +11,8 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
-
 
 @Service
 public class JWTService {
@@ -27,17 +25,20 @@ public class JWTService {
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
+
+        // Pull authorities from the authentication object
+        Collection<?> authorities = authentication.getAuthorities();
+
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + expiration);
 
         String token = Jwts.builder()
                 .setSubject(username)
+                .claim("roles", authorities)
                 .setIssuedAt( new Date())
                 .setExpiration(expireDate)
                 .signWith(getSignKey(),SignatureAlgorithm.HS512)
                 .compact();
-        System.out.println("New token :");
-        System.out.println(token);
         return token;
     }
 
