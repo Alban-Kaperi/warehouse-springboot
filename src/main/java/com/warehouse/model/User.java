@@ -1,9 +1,11 @@
 package com.warehouse.model;
 
-import com.warehouse.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -17,9 +19,14 @@ public class User {
     @NotEmpty(message = "Password is required")
     private String password;
 
-    @NotEmpty(message = "Role is required")
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private List<Role> roles = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -45,11 +52,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
