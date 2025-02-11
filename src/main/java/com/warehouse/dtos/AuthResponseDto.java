@@ -1,8 +1,12 @@
 package com.warehouse.dtos;
 
-public class AuthResponseDTO {
+public class AuthResponseDto {
     private String token;
     private String type = "Bearer ";
+
+    public AuthResponseDto(String token) {
+        this.token = token;
+    }
 
     public String getToken() {
         return token;
