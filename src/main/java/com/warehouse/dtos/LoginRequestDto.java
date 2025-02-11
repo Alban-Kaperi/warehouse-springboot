@@ -1,6 +1,6 @@
 package com.warehouse.dtos;
 
-public class LoginRequestDTO {
+public class LoginRequestDto {
     private String username;
     private String password;
 
