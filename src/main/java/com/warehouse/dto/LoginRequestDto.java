@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dto;
 
 public class LoginRequestDto {
     private String username;

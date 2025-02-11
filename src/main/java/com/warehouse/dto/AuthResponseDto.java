@@ -1,4 +1,4 @@
-package com.warehouse.dtos;
+package com.warehouse.dto;
 
 public class AuthResponseDto {
     private String token;
