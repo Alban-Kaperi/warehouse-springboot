@@ -2,9 +2,7 @@ package com.warehouse.controller;
 
 import com.warehouse.dtos.AuthResponseDto;
 import com.warehouse.dtos.LoginRequestDto;
-import com.warehouse.dtos.RegisterDto;
 import com.warehouse.enums.RoleEnum;
-import com.warehouse.exception.RoleNotFoundException;
 import com.warehouse.model.Role;
 import com.warehouse.model.User;
 import com.warehouse.repository.RoleRepository;
@@ -57,17 +55,18 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-        if (userRepository.findByUsername(registerDto.getUsername()).isPresent()) {
+    public ResponseEntity<String> register(@RequestBody LoginRequestDto loginDto) {
+        if (userRepository.findByUsername(loginDto.getUsername()).isPresent()) {
             return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
         }
 
         var newUser = new User();
-        newUser.setUsername(registerDto.getUsername());
-        newUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        newUser.setUsername(loginDto.getUsername());
+        newUser.setPassword(passwordEncoder.encode(loginDto.getPassword()));
 
 
-        Role clientRole = roleRepository.findByName(RoleEnum.CLIENT.name()).orElseThrow(() -> new RoleNotFoundException("Role CLIENT not found"));;
+        Role clientRole = roleRepository.findByName(RoleEnum.CLIENT.name())
+                .orElseThrow(() -> new RuntimeException("CLIENT role not found"));
         List<Role> roles = new ArrayList<>();
         roles.add(clientRole);
         newUser.setRoles(roles);
