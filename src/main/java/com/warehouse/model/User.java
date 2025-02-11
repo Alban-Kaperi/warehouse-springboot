@@ -1,5 +1,6 @@
 package com.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -17,6 +18,7 @@ public class User {
     private String username;
 
     @NotEmpty(message = "Password is required")
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
