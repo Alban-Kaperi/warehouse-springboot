@@ -4,6 +4,7 @@ import com.warehouse.dtos.AuthResponseDto;
 import com.warehouse.dtos.LoginRequestDto;
 import com.warehouse.dtos.RegisterDto;
 import com.warehouse.enums.RoleEnum;
+import com.warehouse.exception.RoleNotFoundException;
 import com.warehouse.model.Role;
 import com.warehouse.model.User;
 import com.warehouse.repository.RoleRepository;
@@ -56,7 +57,7 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) throws Exception {
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
         if (userRepository.findByUsername(registerDto.getUsername()).isPresent()) {
             return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
         }
@@ -66,7 +67,7 @@ public class AuthController {
         newUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
 
-        Role clientRole = roleRepository.findByName(RoleEnum.CLIENT.name());
+        Role clientRole = roleRepository.findByName(RoleEnum.CLIENT.name()).orElseThrow(() -> new RoleNotFoundException("Role CLIENT not found"));;
         List<Role> roles = new ArrayList<>();
         roles.add(clientRole);
         newUser.setRoles(roles);
