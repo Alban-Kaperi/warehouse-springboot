@@ -2,6 +2,7 @@ package com.warehouse.controller;
 
 import com.warehouse.dtos.AuthResponseDto;
 import com.warehouse.dtos.LoginRequestDto;
+import com.warehouse.dtos.RegisterDto;
 import com.warehouse.enums.RoleEnum;
 import com.warehouse.model.Role;
 import com.warehouse.model.User;
@@ -55,14 +56,14 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody LoginRequestDto loginDto) throws Exception {
-        if (userRepository.findByUsername(loginDto.getUsername()).isPresent()) {
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) throws Exception {
+        if (userRepository.findByUsername(registerDto.getUsername()).isPresent()) {
             return new ResponseEntity<>("Username is already taken", HttpStatus.BAD_REQUEST);
         }
 
         var newUser = new User();
-        newUser.setUsername(loginDto.getUsername());
-        newUser.setPassword(passwordEncoder.encode(loginDto.getPassword()));
+        newUser.setUsername(registerDto.getUsername());
+        newUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
 
         Role clientRole = roleRepository.findByName(RoleEnum.CLIENT.name());
