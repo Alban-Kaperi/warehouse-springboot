@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-api-depl
+spec:
+  replicas: 2 # number of pods we want to create, running some particular image.
+  selector:
+    matchLabels:
+      app: inventory-api
+  template:
+    metadata:
+      labels:
+        app: inventory-api
+    spec:
+      hostname: inventory-api-depl
+      containers:
+        - name: inventory-api-container
+          image: inventory-api:latest # Pull image of inventory-api:latest
+          imagePullPolicy: Never
+          resources:
+            limits:
+              cpu: "500m" # 500 milliCPU (0.5 CPU)
+              memory: "512Mi" # 512 MiB
+            requests:
+              cpu: "200m" # 200 milliCPU (0.2 CPU)
+              memory: "256Mi" # 256 MiB
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-api
+spec:
+  type: NodePort # Configure type NodePort
+  selector:
+    app: inventory-api
+  ports:
+    - name: inventory-api-node-port
+      protocol: TCP
+      port: 8080 # External service port
+      targetPort: 8080 # Container port your app listens on
+      nodePort: 30303 # Fixed NodePort (range: 30000-32767)
