@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /*
 * The `SecurityConfig` class is a `Spring Security configuration class` that sets up the application's security functionality,
 * including authentication and authorization mechanisms.
-* Each annotated component and method serves a specific part in configuring application security.
 */
 @Configuration
 @EnableWebSecurity

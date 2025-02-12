@@ -48,12 +48,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
-            /*
-            * An `UsernamePasswordAuthenticationToken` object is created to represent the authenticated user, with:
-            * - The user's details (`userDetails`) from the database.
-            * - `null` for the credentials because the user has already been authenticated (via the token).
-            * - The user's roles/authorities (`userDetails.getAuthorities()`).
-            */
+            // UsernamePasswordAuthenticationToken object is created to represent the authenticated user
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
