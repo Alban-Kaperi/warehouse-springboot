@@ -1,5 +1,7 @@
 package com.warehouse.controller;
 
+import com.warehouse.dto.RegisterDto;
+import com.warehouse.dto.UserRequestDto;
 import com.warehouse.dto.UserResponseDto;
 import com.warehouse.model.User;
 import com.warehouse.service.UserService;
@@ -36,10 +38,17 @@ public class AdminController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody User user){
-        UserResponseDto savedUser = userService.saveUser(user);
-        logger.info("User with id: {} saved", user.getId());
+    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody RegisterDto user){
+        UserResponseDto savedUser = userService.createUser(user);
+        logger.info("User with id: {} saved", savedUser.getId());
         return ResponseEntity.ok(savedUser);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequestDto user) {
+        UserResponseDto updatedUser = userService.updateUser(id, user);
+        logger.info("User with id: {} updated", id);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{id}")
