@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class JWTService {
@@ -22,6 +24,14 @@ public class JWTService {
 
     @Value("${jwt.expiration}")
     private long expiration;
+
+    // Add a Set to store invalidated tokens
+    private Set<String> invalidatedTokens = new HashSet<>();
+
+    // Add method to invalidate token
+    public void invalidateToken(String token) {
+        invalidatedTokens.add(token);
+    }
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
@@ -53,6 +63,11 @@ public class JWTService {
 
     public boolean validateToken(String token) {
         try {
+
+            if (invalidatedTokens.contains(token)) {
+                return false;
+            }
+
             Jwts.parserBuilder()
                     .setSigningKey(getSignKey())
                     .build()

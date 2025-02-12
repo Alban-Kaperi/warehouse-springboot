@@ -8,6 +8,7 @@ import com.warehouse.model.User;
 import com.warehouse.repository.RoleRepository;
 import com.warehouse.repository.UserRepository;
 import com.warehouse.security.JWTService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -54,6 +57,33 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        /*
+         * To make it work fully we need to store out tokens in the database so that we can invalidate them properly
+         * But this was not part of the scope of this project at least on what I understood.
+         */
+        String token = extractTokenFromRequest(request);
+
+        if (token != null) {
+            jwtService.invalidateToken(token);
+            // Clear the security context
+            SecurityContextHolder.clearContext();
+            return ResponseEntity.ok("Logged out successfully");
+        }
+
+        return ResponseEntity.badRequest().body("No token found");
+    }
+
+    private String extractTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody LoginRequestDto loginDto) {
         if (userRepository.findByUsername(loginDto.getUsername()).isPresent()) {
@@ -67,7 +97,7 @@ public class AuthController {
 
         Role clientRole = roleRepository.findByName(RoleEnum.CLIENT.name())
                 .orElseThrow(() -> new RuntimeException("CLIENT role not found"));
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(clientRole);
         newUser.setRoles(roles);
 
