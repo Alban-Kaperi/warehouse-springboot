@@ -12,10 +12,10 @@ import java.util.List;
 @RestController
 @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
 @RequestMapping("/api/inventory/items")
-public class InventoryController {
+public class InventoryItemController {
     private final ItemService itemService;
 
-    public InventoryController(ItemService itemService) {
+    public InventoryItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
