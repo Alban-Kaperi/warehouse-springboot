@@ -39,8 +39,7 @@ public class InventoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Item> updateItem(@PathVariable Long id, @Validated @RequestBody Item item){
-        item.setId(id);
-        Item updated = itemService.update(item);
+        Item updated = itemService.update(id, item);
         return ResponseEntity.ok(updated);
     }
 
