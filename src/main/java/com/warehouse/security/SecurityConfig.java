@@ -45,7 +45,10 @@ public class SecurityConfig {
                 // Make the session stateless for api usage
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // Allow routes under /api/auth/ and require authentication for all others.
-                .authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated());
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/webjars/**").permitAll()
+                        .anyRequest().authenticated());
 
         // Intercept the token and verify user details
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
