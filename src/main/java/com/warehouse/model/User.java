@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotEmpty;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -27,8 +29,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private List<Role> roles = new ArrayList<>();
-
+    private Set<Role> roles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -54,11 +55,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }
