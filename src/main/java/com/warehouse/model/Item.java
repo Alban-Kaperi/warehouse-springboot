@@ -1,12 +1,12 @@
 package com.warehouse.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
+@Table(name = "items")
 public class Item {
 
     @Id
@@ -16,10 +16,12 @@ public class Item {
     @NotEmpty(message = "Item Name is required")
     private String name;
 
-    @NotEmpty(message = "Item Description is required")
+    @NotNull(message = "Item Quantity is required")
+    @PositiveOrZero(message = "Item Quantity must be greater than or equal to zero")
     private Integer quantity;
 
-    @NotEmpty(message = "Item Price is required")
+    @NotNull(message = "Item Price is required")
+    @PositiveOrZero(message = "Item Price must be greater than or equal to zero")
     private Double price;
 
     // Getters and Setters
