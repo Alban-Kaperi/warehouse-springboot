@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("hasRole('WAREHOUSE_MANAGER')")
-@RequestMapping("/api/inventory")
+@RequestMapping("/api/inventory/items")
 public class InventoryController {
     private final ItemService itemService;
 
@@ -19,20 +19,35 @@ public class InventoryController {
         this.itemService = itemService;
     }
 
-
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Item>> getAllItems(){
         List<Item> items = itemService.getAll();
         return ResponseEntity.ok(items);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Item> saveItem(@Validated @RequestBody Item item){
-        Item created = itemService.create(item);
-        return ResponseEntity.ok(created);
+    @GetMapping("/{id}")
+    public ResponseEntity<Item> getItemById(@PathVariable Long id){
+        Item item = itemService.findById(id);
+        return ResponseEntity.ok(item);
     }
 
+    @PostMapping
+    public ResponseEntity<Item> saveItem(@Validated @RequestBody Item item){
+        Item createdItem = itemService.create(item);
+        return ResponseEntity.status(201).body(createdItem);
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Item> updateItem(@PathVariable Long id, @Validated @RequestBody Item item){
+        item.setId(id);
+        Item updated = itemService.update(item);
+        return ResponseEntity.ok(updated);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id){
+        itemService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
