@@ -15,7 +15,6 @@ public class TruckService {
         this.truckRepository = truckRepository;
     }
 
-
     public Truck create(Truck truck) {
         return truckRepository.save(truck);
     }
@@ -29,8 +28,9 @@ public class TruckService {
         return truckRepository.save(truckToUpdate);
     }
 
-    public void delete(Truck truck) {
-        truckRepository.delete(truck);
+    public void delete(String truck) {
+        Truck truckToDelete = truckRepository.findById(truck).orElseThrow(() -> new RuntimeException("Truck not found"));
+        truckRepository.delete(truckToDelete);
     }
 
     public List<Truck> findAll() {
