@@ -1,5 +1,6 @@
 package com.warehouse.service;
 
+import com.warehouse.exception.ItemNotFoundException;
 import com.warehouse.model.Item;
 import com.warehouse.repository.ItemRepository;
 import org.springframework.stereotype.Service;
@@ -20,15 +21,22 @@ public class ItemService {
     }
 
     public Item update(Item item) {
-        return itemRepository.save(item);
+        Item itemToUpdate = itemRepository.findById(item.getId()).orElseThrow(() -> new ItemNotFoundException("Item not found"));
+
+        itemToUpdate.setName(item.getName());
+        itemToUpdate.setPrice(item.getPrice());
+        itemToUpdate.setQuantity(item.getQuantity());
+
+        return itemRepository.save(itemToUpdate);
     }
 
     public Item findById(Long id) {
-        return itemRepository.findById(id).orElse(null);
+        return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
 
-    public void delete(Item item) {
-        itemRepository.delete(item);
+    public void delete(Long item) {
+        Item itemToDelete = itemRepository.findById(item).orElseThrow(() -> new ItemNotFoundException("Item not found"));
+        itemRepository.delete(itemToDelete);
     }
 
     public List<Item> getAll() {
