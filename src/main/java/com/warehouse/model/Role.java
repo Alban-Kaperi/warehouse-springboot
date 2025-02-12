@@ -11,6 +11,14 @@ public class Role {
     @Column(unique = true)
     private String name;
 
+    public Role(String roleName) {
+        this.name = roleName;
+    }
+
+    public Role() {
+
+    }
+
     // Getters and Setters
 
     public long getId() {
