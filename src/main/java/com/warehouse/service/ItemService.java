@@ -20,8 +20,8 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public Item update(Item item) {
-        Item itemToUpdate = itemRepository.findById(item.getId()).orElseThrow(() -> new ItemNotFoundException("Item not found"));
+    public Item update(Long id, Item item) {
+        Item itemToUpdate = itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException("Item not found"));
 
         itemToUpdate.setName(item.getName());
         itemToUpdate.setPrice(item.getPrice());
