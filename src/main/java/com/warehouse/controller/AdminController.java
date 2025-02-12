@@ -41,7 +41,7 @@ public class AdminController {
     public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody RegisterDto user){
         UserResponseDto savedUser = userService.createUser(user);
         logger.info("User with id: {} saved", savedUser.getId());
-        return ResponseEntity.ok(savedUser);
+        return ResponseEntity.status(201).body(savedUser);
     }
 
     @PutMapping("/{id}")
