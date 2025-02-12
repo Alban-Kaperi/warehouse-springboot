@@ -20,8 +20,13 @@ public class TruckService {
         return truckRepository.save(truck);
     }
 
-    public Truck update(Truck truck) {
-        return truckRepository.save(truck);
+    public Truck update(String chassis, Truck truck) {
+        Truck truckToUpdate = truckRepository.findById(chassis).orElseThrow(() -> new RuntimeException("Truck not found"));
+
+        truckToUpdate.setChassisNumber(truck.getChassisNumber());
+        truckToUpdate.setLicensePlate(truck.getLicensePlate());
+
+        return truckRepository.save(truckToUpdate);
     }
 
     public void delete(Truck truck) {
