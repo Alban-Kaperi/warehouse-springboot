@@ -32,10 +32,22 @@ public class InventoryTruckController {
         return ResponseEntity.ok(truck);
     }
 
+    @PostMapping
+    public ResponseEntity<Truck> createTruck(@Validated @RequestBody Truck truck){
+        Truck createdTruck = truckService.create(truck);
+        return ResponseEntity.status(201).body(createdTruck);
+    }
+
     @PutMapping("/{chassis}")
     public ResponseEntity<Truck> updateTruck(@PathVariable String chassis, @Validated @RequestBody Truck truck){
         Truck updateTruck = truckService.update(chassis, truck);
         return ResponseEntity.ok(updateTruck);
+    }
+
+    @DeleteMapping("/{chassis}")
+    public ResponseEntity<Void> deleteTruck(@PathVariable String chassis){
+        truckService.delete(chassis);
+        return ResponseEntity.noContent().build();
     }
 
 }
