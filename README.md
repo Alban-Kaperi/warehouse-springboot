@@ -44,21 +44,22 @@ Access the API at `http://localhost:8080`or `http://localhost:8080/swagger-ui/in
 ## Kubernetes
 
 If you plan to test the application in Kubernetes, follow these additional steps:
+1. you need to modify the application.properties use this connection `spring.datasource.url=jdbc:mysql://host.docker.internal:3306/inventory`
 
-1. Create the database with docker-compose
+2. Create the database with docker-compose
 ```bash
-cd inventory-api
-docker-compose up -d
+    cd inventory-api
+    docker-compose up -d
 ```
-2. Build the Docker image of the application:
+3. Build the Docker image of the application:
 ``` bash
    docker build -t inventory-api .
 ```
-3. Deploy to Kubernetes:
+4. Deploy to Kubernetes:
 ``` bash
    kubectl apply -f .\infra\deployment.yml
 ```
-4. Verify the deployment and expose the service as needed.
+5. Verify the deployment and expose the service as needed.
 
 > In kubernetes I have used NodePort service to expose the app, it runs on port `30303`
 
