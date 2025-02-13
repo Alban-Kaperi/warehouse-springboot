@@ -29,7 +29,7 @@ public class Order {
     private OrderStatus status;
 
     @Temporal(TemporalType.DATE)
-    private String deadlineDate;
+    private Date deadlineDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference // help serialize the bidirectional relationship without running into infinite recursion issues
@@ -87,11 +87,11 @@ public class Order {
         this.status = status;
     }
 
-    public String getDeadlineDate() {
+    public Date getDeadlineDate() {
         return deadlineDate;
     }
 
-    public void setDeadlineDate(String deadlineDate) {
+    public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
     }
 
