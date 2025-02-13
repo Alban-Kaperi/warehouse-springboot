@@ -1,5 +1,6 @@
 package com.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.warehouse.enums.OrderStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -30,8 +31,8 @@ public class Order {
     @Temporal(TemporalType.DATE)
     private String deadlineDate;
 
-    // One Order may have many items
-    @OneToMany
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference // help serialize the bidirectional relationship without running into infinite recursion issues
     private List<OrderItem> items = new ArrayList<>();
 
     // Many Orders can be created by one User

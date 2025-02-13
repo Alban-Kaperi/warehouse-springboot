@@ -1,5 +1,6 @@
 package com.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +16,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "item_id")
+    @JsonBackReference
     private Item item;
 
     private int quantity;
