@@ -12,6 +12,6 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - ./docker-mysql-:/var/lib/mysql  # Store MySQL data in a local directory
-      - ./docker-mysql:/docker-entrypoint-initdb.d # Seed the database if there are no data
+      #- ./docker-mysql:/docker-entrypoint-initdb.d # Seed the database if there are no data
     ports:
       - "3306:3306"
