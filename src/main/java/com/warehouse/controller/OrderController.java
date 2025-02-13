@@ -1,5 +1,6 @@
 package com.warehouse.controller;
 
+import com.warehouse.dto.OrderRequestDto;
 import com.warehouse.enums.OrderStatus;
 import com.warehouse.model.Order;
 import com.warehouse.service.OrderService;
@@ -32,9 +33,25 @@ public class OrderController {
 
     @PostMapping
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<Order> createOrder(Order order) {
-        order.setStatus(OrderStatus.CREATED);
+    public ResponseEntity<Order> createOrder(OrderRequestDto order) {
         return ResponseEntity.ok(orderService.create(order));
     }
+
+    // TODO: For not having enough time to finish all the requirements
+    // CLIENT: Update order (allowed if status is CREATED or DECLINED)
+
+    // CLIENT: Cancel an order if not already fulfilled, under delivery, or canceled
+
+    // CLIENT: Submit an order (status changes to AWAITING_APPROVAL)
+
+    // CLIENT: View his orders (optionally filtered by status)
+
+    // WAREHOUSE_MANAGER: View all orders (optionally filtered by status)
+
+    // WAREHOUSE_MANAGER: Approve an order
+
+    // WAREHOUSE_MANAGER: Decline an order
+
+
 
 }
