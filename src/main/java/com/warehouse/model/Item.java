@@ -24,6 +24,16 @@ public class Item {
     @PositiveOrZero(message = "Item Price must be greater than or equal to zero")
     private Double price;
 
+    // Default
+    public Item() {
+    }
+
+    public Item(String name, Integer quantity, Double price) {
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     // Getters and Setters
 
     public Long getId() {

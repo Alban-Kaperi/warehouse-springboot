@@ -15,6 +15,14 @@ public class Truck {
     @Column(unique = true)
     private String licensePlate;
 
+    public Truck() {
+    }
+
+    public Truck(String chassisNumber, String licensePlate) {
+        this.chassisNumber = chassisNumber;
+        this.licensePlate = licensePlate;
+    }
+
     // Getters and Setters
 
     public String getChassisNumber() {
